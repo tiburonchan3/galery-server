@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use("/api", routes);
 mongoose
-  .connect("mongodb://localhost:27017/cdye", {
+  .connect("mongodb+srv://danniel-cntrs:i4q8MmkyZkxl3GKL@dye.wwmki.mongodb.net/cdye?retryWrites=true&w=majority", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
