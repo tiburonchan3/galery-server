@@ -3,14 +3,13 @@ const mongoose = require("mongoose");
 const routes = require("./router/routes");
 const cors = require("cors");
 const app = express();
-const dotenv =require('dotenv');
+const dotenv = require("dotenv");
 
-dotenv.config()
+dotenv.config();
 app.use(cors());
-app.use("/api", routes);
 app.use(express.json());
-app.use(express.static("public"));
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false }));
+app.use("/api", routes);
 mongoose
   .connect("mongodb://localhost:27017/cdye", {
     useNewUrlParser: true,

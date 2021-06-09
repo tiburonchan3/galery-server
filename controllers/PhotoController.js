@@ -18,6 +18,7 @@ async function addPhoto(req, res) {
       if (err) {
         return res.send({ message: "error al subir imagen", ok: false });
       }
+      console.log(result);
       const name = result.original_filename;
       const imgdir = path.resolve(__dirname, `../src/photo/${name}`);
       try {
@@ -44,4 +45,22 @@ async function getPhotos(_, res) {
   const photos = await Photo.find();
   res.send({ photos });
 }
-module.exports = { addPhoto, getPhotos };
+async function deletePhoto(req, res) {
+  const { public_id, id } = req.body;
+  try {
+    await cloudinary.uploader.destroy(
+      public_id,
+      { invalidate: true, resource_type: "image" },
+      async (error, result) => {
+        if (error) {
+          return res.status(400).json(error);
+        }
+        await Photo.findByIdAndDelete(id);
+        res.json({ result, message: "se borro la foto", ok: true });
+      }
+    );
+  } catch (error) {
+    return res.status(400).json(error);
+  }
+}
+module.exports = { addPhoto, getPhotos, deletePhoto };
